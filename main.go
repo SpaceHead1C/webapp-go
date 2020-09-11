@@ -48,12 +48,20 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func savePostHandler(w http.ResponseWriter, r *http.Request) {
-	id := GenerateID()
+	id := r.FormValue("id")
 	title := r.FormValue("title")
 	content := r.FormValue("content")
 
-	post := models.NewPost(id, title, content)
-	posts[post.GetID()] = post
+	var post *models.Post
+	if id != "" {
+		post = posts[id]
+		post.Title = title
+		post.Content = content
+	} else {
+		id = GenerateID()
+		post = models.NewPost(id, title, content)
+		posts[post.GetID()] = post
+	}
 
 	http.Redirect(w, r, "/", 302)
 }
