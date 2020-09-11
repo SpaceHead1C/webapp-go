@@ -47,6 +47,18 @@ func editHandler(w http.ResponseWriter, r *http.Request) {
 	t.ExecuteTemplate(w, "write", post)
 }
 
+func deleteHandler(w http.ResponseWriter, r *http.Request) {
+	id := r.FormValue("id")
+	if id == "" {
+		http.NotFound(w, r)
+		return
+	}
+
+	delete(posts, id)
+
+	http.Redirect(w, r, "/", 302)
+}
+
 func savePostHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.FormValue("id")
 	title := r.FormValue("title")
@@ -76,6 +88,7 @@ func main() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/write", writeHandler)
 	http.HandleFunc("/edit", editHandler)
+	http.HandleFunc("/delete", deleteHandler)
 	http.HandleFunc("/SavePost", savePostHandler)
 
 	http.ListenAndServe(":3000", nil)
