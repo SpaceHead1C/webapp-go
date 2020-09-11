@@ -30,6 +30,23 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 	t.ExecuteTemplate(w, "write", nil)
 }
 
+func editHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/write.html", "templates/header.html", "templates/footer.html")
+	if err != nil {
+		fmt.Fprintf(w, err.Error())
+		return
+	}
+
+	id := r.FormValue("id")
+	post, found := posts[id]
+	if !found {
+		http.NotFound(w, r)
+		return
+	}
+
+	t.ExecuteTemplate(w, "write", post)
+}
+
 func savePostHandler(w http.ResponseWriter, r *http.Request) {
 	id := GenerateID()
 	title := r.FormValue("title")
@@ -50,6 +67,7 @@ func main() {
 
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/write", writeHandler)
+	http.HandleFunc("/edit", editHandler)
 	http.HandleFunc("/SavePost", savePostHandler)
 
 	http.ListenAndServe(":3000", nil)
