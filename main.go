@@ -17,9 +17,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	fmt.Println(posts)
-
-	t.ExecuteTemplate(w, "index", nil)
+	t.ExecuteTemplate(w, "index", posts)
 }
 
 func writeHandler(w http.ResponseWriter, r *http.Request) {

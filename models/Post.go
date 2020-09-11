@@ -3,8 +3,8 @@ package models
 // Post contains id, title and content
 type Post struct {
 	id      string
-	title   string
-	content string
+	Title   string
+	Content string
 }
 
 // NewPost is a contructor
