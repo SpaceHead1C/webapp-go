@@ -21,8 +21,8 @@
 
 	</div>
 	<div class="col-xs-4">
-		{{ if .Id }}
-			<a href="/delete?id={{.Id}}">Delete</a>
+		{{ if .GetID }}
+			<a href="/delete?id={{.GetID}}">Delete</a>
 		{{ end }}
 	</div>
 </div>
